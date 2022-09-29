@@ -104,17 +104,21 @@ class MainActivity : AppCompatActivity() {
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics)
                 .toInt()
 
-        val y = popupStrokeView.measuredHeight + binding.test.measuredHeight + padding
+        val y = popupStrokeView.measuredHeight + binding.ivDrawMode.measuredHeight + padding
 
         PopupWindowCompat.showAsDropDown(
             popup,
-            binding.test,
+            binding.ivDrawMode,
             -padding,
             -y,
             Gravity.CENTER_HORIZONTAL
         )
 
         this.popup = popup
+    }
+
+    private fun changeZoom(){
+        binding.drawBoardView.isZoomEnabled = !binding.drawBoardView.isZoomEnabled
     }
 
     /**
@@ -151,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     fun onClick(v: View) {
         Log.d(TAG, "onClick: id " + v.id)
         when (v.id) {
-            R.id.ivDrawMode -> showSelectPopupWindow()
+            R.id.ivDrawMode -> showSelectPenStyle()
             R.id.ivPen -> {
                 if (!isGreen) {
                     isGreen = true
@@ -201,8 +205,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.btn_menu_text
             )
 
+            R.id.drag->changeZoom()
             //=======================
-            R.id.test -> showSelectPenStyle()
+            R.id.test -> changeZoom()
             //=======================
             R.id.ivClear -> {
                 val dialog = AlertDialog.Builder(this)
