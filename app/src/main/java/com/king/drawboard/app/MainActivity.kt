@@ -28,6 +28,8 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -117,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         this.popup = popup
     }
 
-    private fun changeZoom(){
+    private fun changeZoom() {
         binding.drawBoardView.isZoomEnabled = !binding.drawBoardView.isZoomEnabled
     }
 
@@ -140,7 +142,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun saveBitmap(bitmap: Bitmap): File? {
         try {
-            val file = File(getExternalFilesDir(this), "bitmap.jpg")
+            val str = System.currentTimeMillis().toString()
+            val jpg = ".jpg"
+            val fileName = str + jpg
+            val file = File(getExternalFilesDir(this), fileName)
             val out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.close()
@@ -171,16 +176,16 @@ class MainActivity : AppCompatActivity() {
             R.id.stroke_color_black -> {
                 binding.drawBoardView.paintColor = Color.BLACK
             }
-            R.id.stroke_color_red->{
+            R.id.stroke_color_red -> {
                 binding.drawBoardView.paintColor = Color.RED
             }
-            R.id.stroke_color_green->{
+            R.id.stroke_color_green -> {
                 binding.drawBoardView.paintColor = Color.GREEN
             }
-            R.id.stroke_color_cyan->{
+            R.id.stroke_color_cyan -> {
                 binding.drawBoardView.paintColor = Color.CYAN
             }
-            R.id.stroke_color_blue->{
+            R.id.stroke_color_blue -> {
                 binding.drawBoardView.paintColor = Color.BLUE
             }
 
@@ -205,9 +210,12 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.btn_menu_text
             )
 
-            R.id.drag->changeZoom()
+            R.id.drag -> changeZoom()
             //=======================
-            R.id.test -> changeZoom()
+            R.id.test -> {
+                val str = System.currentTimeMillis()
+                Log.d(TAG, "saveBitmap: $str")
+            }
             //=======================
             R.id.ivClear -> {
                 val dialog = AlertDialog.Builder(this)
