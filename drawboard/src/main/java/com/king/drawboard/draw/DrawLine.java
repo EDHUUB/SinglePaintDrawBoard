@@ -2,6 +2,7 @@ package com.king.drawboard.draw;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.view.MotionEvent;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
@@ -32,8 +33,8 @@ public class DrawLine extends Draw {
     }
 
     @Override
-    public void actionMove(Canvas canvas, float x, float y) {
-        super.actionMove(canvas, x, y);
+    public void actionMove(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionMove(canvas, x, y,event);
         lastX = x;
         lastY = y;
         canvas.drawLine(downX, downY, lastX, lastY, paint);

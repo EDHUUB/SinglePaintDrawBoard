@@ -44,6 +44,10 @@
             android:id="@+id/strokeRect"
             style="@style/OnClick"
             android:button="@drawable/stroke_type_rbtn_rectangle" />
+        <RadioButton
+            android:id="@+id/strokePicture"
+            style="@style/OnClick"
+            android:button="@drawable/ic_photo" />
 
         <RadioButton
             android:id="@+id/strokeText"

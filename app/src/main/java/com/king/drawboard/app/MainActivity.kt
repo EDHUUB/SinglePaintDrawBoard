@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.strokeDraw -> changeDrawMode(
                 DrawBoardView.DrawMode.DRAW_PATH,
-                R.drawable.btn_menu_path
+                R.drawable.stroke_type_rbtn_draw
             )
             R.id.strokeLine -> changeDrawMode(
                 DrawBoardView.DrawMode.DRAW_LINE,
@@ -204,6 +204,10 @@ class MainActivity : AppCompatActivity() {
             R.id.strokeOval -> changeDrawMode(
                 DrawBoardView.DrawMode.DRAW_OVAL,
                 R.drawable.btn_menu_oval
+            )
+            R.id.strokePicture->changeDrawMode(
+                DrawBoardView.DrawMode.DRAW_BITMAP,
+                R.drawable.btn_menu_bitmap
             )
             R.id.strokeText -> changeDrawMode(
                 DrawBoardView.DrawMode.DRAW_TEXT,

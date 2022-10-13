@@ -2,6 +2,7 @@ package com.king.drawboard.draw;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
@@ -26,8 +27,8 @@ public class DrawOval extends Draw {
     }
 
     @Override
-    public void actionMove(Canvas canvas, float x, float y) {
-        super.actionMove(canvas, x, y);
+    public void actionMove(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionMove(canvas, x, y,event);
         rect.right = x;
         rect.bottom = y;
         canvas.drawOval(rect, paint);

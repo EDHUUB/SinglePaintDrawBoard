@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
@@ -29,8 +30,8 @@ public class DrawPoint extends Draw {
     }
 
     @Override
-    public void actionMove(Canvas canvas, float x, float y) {
-        super.actionMove(canvas, x, y);
+    public void actionMove(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionMove(canvas, x, y,event);
         canvas.drawPoint(x, y, paint);
         lastX = x;
         lastY = y;

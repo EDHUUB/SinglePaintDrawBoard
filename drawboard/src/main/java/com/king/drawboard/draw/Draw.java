@@ -3,6 +3,7 @@ package com.king.drawboard.draw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.king.drawboard.action.MotionAction;
 
@@ -31,7 +32,7 @@ public abstract class Draw implements MotionAction {
     }
 
     @Override
-    public void actionMove(Canvas canvas, float x, float y) {
+    public void actionMove(Canvas canvas, float x, float y, MotionEvent event) {
         Log.d(getClass().getSimpleName(),String.format("actionMove: %f, %f", x, y));
     }
 

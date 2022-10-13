@@ -3,6 +3,7 @@ package com.king.drawboard.draw;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.view.MotionEvent;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
@@ -48,8 +49,8 @@ public class DrawBitmap extends Draw {
     }
 
     @Override
-    public void actionMove(Canvas canvas, float x, float y) {
-        super.actionMove(canvas, x, y);
+    public void actionMove(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionMove(canvas, x, y,event);
         if(bitmap != null){
             if(isAnchorCenter){
                 canvas.drawBitmap(bitmap, bitmap.getWidth() / 2 + x, bitmap.getHeight() / 2 + y, null);
