@@ -971,10 +971,12 @@ public class DrawBoardView extends View {
                         if (drawMode == DrawMode.ERASER) {//如果是橡皮擦模式，则直接使用绘制层画布
                             draw.actionMove(drawingCanvas, ratioX, ratioY, event);
                         } else {
-                            //绘制前先清空预览画布 todo
+                            //绘制前先清空预览画布 todo 调试
                             if (drawMode != DrawMode.DRAW_PATH) {
                                 previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                             }
+//                            previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
                             draw.actionMove(previewCanvas, ratioX, ratioY, event);
                         }
                         if (isShowTouchPoint) {
@@ -1004,11 +1006,17 @@ public class DrawBoardView extends View {
                     if (drawMode == DrawMode.ERASER) {//如果是橡皮擦模式，则直接使用绘制层画布
                         draw.actionUp(drawingCanvas, ratioX, ratioY);
                     } else {
-                        //绘制前先清空预览画布
+                        //绘制前先清空预览画布 todo：调试
+//                        if (drawMode != DrawMode.DRAW_PATH) {
+//                            previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+//                        }
                         previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                        draw.actionUp(previewCanvas, ratioX, ratioY);
+                        draw.actionUp(drawingCanvas, ratioX, ratioY);
                     }
-                    //将之前绘制预览的结果绘制在图层上
+                    //将之前绘制预览的结果绘制在图层上 todo
+//                    if (drawMode != DrawMode.DRAW_PATH) {
+//                        draw.draw(drawingCanvas);
+//                    }
                     draw.draw(drawingCanvas);
                     //将绘制记录保存起来，便于后续的撤销和恢复相关操作
                     drawList.add(draw);
