@@ -217,8 +217,12 @@ class MainActivity : AppCompatActivity() {
             R.id.drag -> changeZoom()
             //=======================
             R.id.test -> {
-                val str = System.currentTimeMillis()
-                Log.d(TAG, "saveBitmap: $str")
+//                val str = System.currentTimeMillis()
+//                Log.d(TAG, "saveBitmap: $str")
+//                changeDrawMode(
+//                    DrawBoardView.DrawMode.DRAW_LINE,
+//                    R.drawable.btn_menu_line                )
+                binding.drawBoardView.clear()
             }
             //=======================
             R.id.ivClear -> {
