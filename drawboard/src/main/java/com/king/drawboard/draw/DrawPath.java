@@ -48,6 +48,7 @@ public class DrawPath extends Draw {
         paths = new ArrayList<>();
         paints = new ArrayList<>();
         lastPress = BigDecimal.valueOf(0);
+        Log.d(TAG, "DrawPath: lastPress start " + lastPress);
     }
 
     public void setPath(Path path) {
@@ -95,6 +96,7 @@ public class DrawPath extends Draw {
 //        paths.add(temp);
 //        paints.add(pressurePaint);
 
+
         widthGradientDescent(canvas, event);
         lastX = x;
         lastY = y;
@@ -124,19 +126,27 @@ public class DrawPath extends Draw {
         preLen = actualLen;
         actualLen = BigDecimal.valueOf(pm.getLength());
         Path temp = new Path();
+        Paint tempPaint = new Paint();
+
         pm.getSegment(preLen.toBigInteger().floatValue(), actualLen.toBigInteger().floatValue(), temp, true);
+        tempPaint.setStyle(pressurePaint.getStyle());
+        tempPaint.setAntiAlias(pressurePaint.isAntiAlias());
+        tempPaint.setColor(pressurePaint.getColor());
+        tempPaint.setStrokeJoin(pressurePaint.getStrokeJoin());
+        tempPaint.setStrokeCap(pressurePaint.getStrokeCap());
+        tempPaint.setStrokeWidth(pressurePaint.getStrokeWidth());
 
 //        canvas.drawPath(path, paint);
-        canvas.drawPath(temp, paint);
+        canvas.drawPath(temp, tempPaint);
 
         paths.add(temp);
-        paints.add(paint);
+        paints.add(tempPaint);
 
     }
 
     private void widthGradientDescent(Canvas canvas, MotionEvent event) {
-        miniWeighUnit = BigDecimal.valueOf(1f);
-
+        miniWeighUnit = BigDecimal.valueOf(0.01f);
+        preLen = actualLen;
         pressurePaint = new Paint();
         pressurePaint.setStyle(paint.getStyle());
         pressurePaint.setAntiAlias(paint.isAntiAlias());
@@ -146,30 +156,37 @@ public class DrawPath extends Draw {
 
         PathMeasure pm = new PathMeasure(path, false);
         press = BigDecimal.valueOf(event.getPressure());
-        preLen = actualLen;
         actualLen = BigDecimal.valueOf(pm.getLength());
 
         BigDecimal delPress = press.subtract(lastPress);
         BigDecimal delLen = actualLen.subtract(preLen);
 
-
-        minLengthUnit = delLen.multiply(miniWeighUnit.divide(delPress, 5, RoundingMode.UP));
-        minLengthUnit = minLengthUnit.abs();
-        Log.d(TAG, "widthGradientDescent:minLengthUnit "+minLengthUnit);
+        if (!(delPress.compareTo(BigDecimal.valueOf(0f)) == 0)) {
+            minLengthUnit = delLen.divide(delPress.divide(miniWeighUnit, 5, RoundingMode.UP), 5, RoundingMode.UP);
+            minLengthUnit = minLengthUnit.abs();
+        }
 
 
         for (BigDecimal f = preLen; f.compareTo(actualLen) == -1; f = f.add(minLengthUnit)) {
-            Log.d(TAG, "widthGradientDescent: =======================");
+            Log.d(TAG, "widthGradientDescent: =======================" + minLengthUnit);
+            Log.d(TAG, "widthGradientDescent:f0 " + f);
+
             Paint tempPaint = new Paint();
             Path temp = new Path();
-            pm.getSegment((preLen.toBigInteger().floatValue()), preLen.add(minLengthUnit).toBigInteger().floatValue(), temp, true);
-            preLen=preLen.add(minLengthUnit);
-            if (lastPress.compareTo(press) < 1) {
-                lastPress = lastPress.add(miniWeighUnit);
-            } else {
-                lastPress = lastPress.subtract(miniWeighUnit);
+            pm.getSegment((f.toBigInteger().floatValue()), f.add(minLengthUnit).toBigInteger().floatValue(), temp, true);
+            preLen = preLen.add(minLengthUnit);
+            Log.d(TAG, "widthGradientDescent:f1 " + f);
+            Log.d(TAG, "widthGradientDescent:actualLen " + actualLen);
+            Log.d(TAG, "widthGradientDescent:lastPress " + lastPress);
+            if (lastPress.compareTo(press)==-1){
+                lastPress=lastPress.add(miniWeighUnit);
+                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
+            }else {
+                lastPress=lastPress.subtract(miniWeighUnit);
+                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
+
             }
-            pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.toBigInteger().floatValue()));
+            pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.floatValue()));
             tempPaint.setStyle(pressurePaint.getStyle());
             tempPaint.setAntiAlias(pressurePaint.isAntiAlias());
             tempPaint.setColor(pressurePaint.getColor());
@@ -180,6 +197,8 @@ public class DrawPath extends Draw {
             paths.add(temp);
             paints.add(tempPaint);
         }
+        lastPress = press;
+
 
 //        press = event.getPressure();
 //        PathMeasure pm = new PathMeasure(path, false);
