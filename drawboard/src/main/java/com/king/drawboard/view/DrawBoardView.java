@@ -932,11 +932,11 @@ public class DrawBoardView extends View {
                         touchCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     }
                     if (drawMode == DrawMode.ERASER) {//如果是橡皮擦模式，则直接使用绘制层画布
-                        draw.actionDown(drawingCanvas, ratioX, ratioY);
+                        draw.actionDown(drawingCanvas, ratioX, ratioY,event);
                     } else {
                         //绘制前先清空预览画布
                         previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                        draw.actionDown(previewCanvas, ratioX, ratioY);
+                        draw.actionDown(previewCanvas, ratioX, ratioY,event);
                     }
 
                     lastX = event.getX();
@@ -1004,14 +1004,14 @@ public class DrawBoardView extends View {
                     float ratioX = (x - currentTranslateX) / currentRatio;
                     float ratioY = (y - currentTranslateY) / currentRatio;
                     if (drawMode == DrawMode.ERASER) {//如果是橡皮擦模式，则直接使用绘制层画布
-                        draw.actionUp(drawingCanvas, ratioX, ratioY);
+                        draw.actionUp(drawingCanvas, ratioX, ratioY,event);
                     } else {
                         //绘制前先清空预览画布 todo：调试
 //                        if (drawMode != DrawMode.DRAW_PATH) {
 //                            previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 //                        }
                         previewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                        draw.actionUp(drawingCanvas, ratioX, ratioY);
+                        draw.actionUp(drawingCanvas, ratioX, ratioY,event);
                     }
                     //将之前绘制预览的结果绘制在图层上 todo
 //                    if (drawMode != DrawMode.DRAW_PATH) {

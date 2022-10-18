@@ -27,7 +27,7 @@ public abstract class Draw implements MotionAction {
     }
 
     @Override
-    public void actionDown(Canvas canvas, float x, float y) {
+    public void actionDown(Canvas canvas, float x, float y,MotionEvent event) {
         Log.d(getClass().getSimpleName(),String.format("actionDown: %f, %f", x, y));
     }
 
@@ -37,7 +37,7 @@ public abstract class Draw implements MotionAction {
     }
 
     @Override
-    public void actionUp(Canvas canvas, float x, float y) {
+    public void actionUp(Canvas canvas, float x, float y,MotionEvent event) {
         Log.d(getClass().getSimpleName(),String.format("actionUp: %f, %f", x, y));
     }
 

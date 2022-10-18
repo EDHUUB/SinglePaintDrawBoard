@@ -42,8 +42,8 @@ public class DrawBitmap extends Draw {
     }
 
     @Override
-    public void actionDown(Canvas canvas, float x, float y) {
-        super.actionDown(canvas, x, y);
+    public void actionDown(Canvas canvas, float x, float y,MotionEvent event) {
+        super.actionDown(canvas, x, y,event);
         lastX = x;
         lastY = y;
     }

@@ -26,8 +26,8 @@ public class DrawLine extends Draw {
     }
 
     @Override
-    public void actionDown(Canvas canvas, float x, float y) {
-        super.actionDown(canvas, x, y);
+    public void actionDown(Canvas canvas, float x, float y,MotionEvent event) {
+        super.actionDown(canvas, x, y,event);
         downX = x;
         downY = y;
     }
