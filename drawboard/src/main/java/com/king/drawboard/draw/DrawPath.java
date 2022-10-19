@@ -48,7 +48,6 @@ public class DrawPath extends Draw {
         paths = new ArrayList<>();
         paints = new ArrayList<>();
         lastPress = BigDecimal.valueOf(0);
-        Log.d(TAG, "DrawPath: lastPress start " + lastPress);
     }
 
     public void setPath(Path path) {
@@ -56,8 +55,8 @@ public class DrawPath extends Draw {
     }
 
     @Override
-    public void actionDown(Canvas canvas, float x, float y,MotionEvent event) {
-        super.actionDown(canvas, x, y,event);
+    public void actionDown(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionDown(canvas, x, y, event);
         path.moveTo(x, y);
         lastX = x;
         lastY = y;
@@ -65,8 +64,8 @@ public class DrawPath extends Draw {
         preLen = BigDecimal.valueOf(0);
         actualLen = preLen;
 //        press= BigDecimal.valueOf(event.getPressure());
-        press= BigDecimal.valueOf(0);
-        lastPress=press;
+        press = BigDecimal.valueOf(0);
+        lastPress = press;
         //todo: 落笔时绘制触碰点
 
 
@@ -79,7 +78,12 @@ public class DrawPath extends Draw {
 
 ////        canvas.drawPath(path, paint);
 
-        widthGradientDescent(canvas, event);
+        Log.d(TAG, "actionMove:event.getToolType " + event.getToolType(0));
+        if (event.getToolType(0) == 2) {
+            widthGradientDescent(canvas, event);
+        } else {
+            canvas.drawPath(path, paint);
+        }
         lastX = x;
         lastY = y;
 
@@ -92,7 +96,6 @@ public class DrawPath extends Draw {
             canvas.drawPath(path, paint);
         } else {
             int size = paints.size();
-            Log.d(TAG, "draw: upsize " + size);
             for (int i = 0; i < size; i++) {
                 canvas.drawPath(paths.get(i), paints.get(i));
             }
@@ -101,57 +104,56 @@ public class DrawPath extends Draw {
     }
 
     @Override
-    public void actionUp(Canvas canvas, float x, float y,MotionEvent event) {
-        super.actionUp(canvas, x, y,event);
-        path.quadTo(lastX, lastY, (x + lastX) / 2, (y + lastY) / 2);
-        PathMeasure pm = new PathMeasure(path, false);
-        lastPress = BigDecimal.valueOf(event.getPressure());
-        press = BigDecimal.valueOf(0);
-        actualLen = BigDecimal.valueOf(pm.getLength());
+    public void actionUp(Canvas canvas, float x, float y, MotionEvent event) {
+        super.actionUp(canvas, x, y, event);
+        if (event.getToolType(0) == 2) {
+            path.quadTo(lastX, lastY, (x + lastX) / 2, (y + lastY) / 2);
+            PathMeasure pm = new PathMeasure(path, false);
+            lastPress = BigDecimal.valueOf(event.getPressure());
+            press = BigDecimal.valueOf(0);
+            actualLen = BigDecimal.valueOf(pm.getLength());
 
-        BigDecimal delPress = press.subtract(lastPress);
-        BigDecimal delLen = actualLen.subtract(preLen);
+            BigDecimal delPress = press.subtract(lastPress);
+            BigDecimal delLen = actualLen.subtract(preLen);
 
-
-
-        if (!(delPress.compareTo(BigDecimal.valueOf(0f)) == 0)) {
-            minLengthUnit = delLen.divide(delPress.divide(miniWeighUnit, 5, RoundingMode.UP), 5, RoundingMode.UP);
-            minLengthUnit = minLengthUnit.abs();
-        }
-
-        for (BigDecimal f = preLen; f.compareTo(actualLen) == -1; f = f.add(minLengthUnit)) {
-            Paint tempPaint = new Paint();
-            Path temp = new Path();
-
-            pm.getSegment((f.toBigInteger().floatValue()), f.add(minLengthUnit).toBigInteger().floatValue(), temp, true);
-            preLen = preLen.add(minLengthUnit);
-            if (lastPress.compareTo(press)==-1){
-                lastPress=lastPress.add(miniWeighUnit);
-                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
-            }else {
-                lastPress=lastPress.subtract(miniWeighUnit);
-                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
-
+            if (!(delPress.compareTo(BigDecimal.valueOf(0f)) == 0)) {
+                minLengthUnit = delLen.divide(delPress.divide(miniWeighUnit, 5, RoundingMode.UP), 5, RoundingMode.UP);
+                minLengthUnit = minLengthUnit.abs();
             }
-            pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.floatValue()));
-            tempPaint.setStyle(pressurePaint.getStyle());
-            tempPaint.setAntiAlias(pressurePaint.isAntiAlias());
-            tempPaint.setColor(pressurePaint.getColor());
-            tempPaint.setStrokeJoin(pressurePaint.getStrokeJoin());
-            tempPaint.setStrokeCap(pressurePaint.getStrokeCap());
-            tempPaint.setStrokeWidth(pressurePaint.getStrokeWidth());
-            canvas.drawPath(temp, tempPaint);
-            paths.add(temp);
-            paints.add(tempPaint);
+
+            for (BigDecimal f = preLen; f.compareTo(actualLen) == -1; f = f.add(minLengthUnit)) {
+                Paint tempPaint = new Paint();
+                Path temp = new Path();
+
+                pm.getSegment((f.toBigInteger().floatValue()), f.add(minLengthUnit).toBigInteger().floatValue(), temp, true);
+                preLen = preLen.add(minLengthUnit);
+                if (lastPress.compareTo(press) == -1) {
+                    lastPress = lastPress.add(miniWeighUnit);
+                } else {
+                    lastPress = lastPress.subtract(miniWeighUnit);
+
+                }
+                pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.floatValue()));
+                tempPaint.setStyle(pressurePaint.getStyle());
+                tempPaint.setAntiAlias(pressurePaint.isAntiAlias());
+                tempPaint.setColor(pressurePaint.getColor());
+                tempPaint.setStrokeJoin(pressurePaint.getStrokeJoin());
+                tempPaint.setStrokeCap(pressurePaint.getStrokeCap());
+                tempPaint.setStrokeWidth(pressurePaint.getStrokeWidth());
+                canvas.drawPath(temp, tempPaint);
+                paths.add(temp);
+                paints.add(tempPaint);
+            }
+        } else {
+            canvas.drawPath(path, paint);
         }
-
 //        canvas.drawPath(path, paint);
-
 
 
     }
 
     private void widthGradientDescent(Canvas canvas, MotionEvent event) {
+        Log.d(TAG, "widthGradientDescent:event.getPressure() " + event.getPressure());
         miniWeighUnit = BigDecimal.valueOf(0.01f);
         preLen = actualLen;
         pressurePaint = new Paint();
@@ -174,22 +176,15 @@ public class DrawPath extends Draw {
         }
 
         for (BigDecimal f = preLen; f.compareTo(actualLen) == -1; f = f.add(minLengthUnit)) {
-            Log.d(TAG, "widthGradientDescent: =======================" + minLengthUnit);
-            Log.d(TAG, "widthGradientDescent:f0 " + f);
 
             Paint tempPaint = new Paint();
             Path temp = new Path();
             pm.getSegment((f.toBigInteger().floatValue()), f.add(minLengthUnit).toBigInteger().floatValue(), temp, true);
             preLen = preLen.add(minLengthUnit);
-            Log.d(TAG, "widthGradientDescent:f1 " + f);
-            Log.d(TAG, "widthGradientDescent:actualLen " + actualLen);
-            Log.d(TAG, "widthGradientDescent:lastPress " + lastPress);
-            if (lastPress.compareTo(press)==-1){
-                lastPress=lastPress.add(miniWeighUnit);
-                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
-            }else {
-                lastPress=lastPress.subtract(miniWeighUnit);
-                Log.d(TAG, "widthGradientDescent:last111 "+lastPress);
+            if (lastPress.compareTo(press) == -1) {
+                lastPress = lastPress.add(miniWeighUnit);
+            } else {
+                lastPress = lastPress.subtract(miniWeighUnit);
 
             }
             pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.floatValue()));
