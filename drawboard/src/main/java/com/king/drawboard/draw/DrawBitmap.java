@@ -5,9 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public class DrawBitmap extends Draw {
 
     Bitmap bitmap;

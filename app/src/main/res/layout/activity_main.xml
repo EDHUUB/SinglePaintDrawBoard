@@ -12,9 +12,10 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/teal_700"
-        android:src="@drawable/bgpic"
+        android:src="@drawable/pink"
+        android:scaleType="fitCenter"
         />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -25,14 +26,15 @@
         android:paddingBottom="2dp"
         android:background="@color/purple_200"
         android:gravity="right">
+
         <ImageView
             android:id="@+id/ivDrawMode"
+            style="@style/OnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@drawable/btn_menu_path"
-            style="@style/OnClick"/>
+            android:layout_margin="10dp"
+            android:src="@drawable/stroke_type_rbtn_draw_bold" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"

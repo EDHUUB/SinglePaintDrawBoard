@@ -20,9 +20,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public class DrawPath extends Draw {
 
     private Path path;
@@ -185,7 +183,6 @@ public class DrawPath extends Draw {
                 lastPress = lastPress.add(miniWeighUnit);
             } else {
                 lastPress = lastPress.subtract(miniWeighUnit);
-
             }
             pressurePaint.setStrokeWidth(paint.getStrokeWidth() * (lastPress.floatValue()));
             tempPaint.setStyle(pressurePaint.getStyle());

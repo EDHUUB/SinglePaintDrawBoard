@@ -4,9 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public class DrawOval extends Draw {
 
     private RectF rect;

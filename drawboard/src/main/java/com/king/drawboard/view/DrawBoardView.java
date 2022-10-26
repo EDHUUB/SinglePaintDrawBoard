@@ -27,6 +27,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.king.drawboard.R;
 import com.king.drawboard.draw.Draw;
@@ -55,10 +56,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
-public class DrawBoardView extends View {
+
+public class DrawBoardView extends ImageView {
 
     /**
      * 触摸时默认允许的容差值
@@ -450,11 +449,13 @@ public class DrawBoardView extends View {
         pointPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         pointPaint.setAntiAlias(true);
         pointPaint.setColor(touchPointColor);
-
+//        setImageResource(R.drawable);
         drawList = new LinkedList<>();
         backupDrawList = new ArrayList<>();
         matrix = new Matrix();
+
         initDrawMap();
+
     }
 
     /**
@@ -513,6 +514,12 @@ public class DrawBoardView extends View {
     public void setImageBitmap(Bitmap bitmap) {
         if (bitmap != null) {
             originBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            if (originBitmap.getHeight()!=height){
+                originBitmap.setHeight(height);
+            }
+            if (originBitmap.getWidth()!=width){
+                originBitmap.setWidth(width);
+            }
             drawList.clear();
             backupDrawList.clear();
             matrix.reset();

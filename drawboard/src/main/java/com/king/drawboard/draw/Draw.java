@@ -7,9 +7,7 @@ import android.view.MotionEvent;
 
 import com.king.drawboard.action.MotionAction;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public abstract class Draw implements MotionAction {
 
     Paint paint;

@@ -101,13 +101,22 @@ class MainActivity : AppCompatActivity() {
         val popup = PopupWindow(this)
         popup.isOutsideTouchable = true
         popup.contentView = popupStrokeView
+//        popup.contentView =popContentView
 
         val padding =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics)
-                .toInt()
+            (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics)
+                .toInt()) / 1
+//        val padding = 0
+        Log.d(TAG, "showSelectPenStyle: padding$padding")
 
-        val y = popupStrokeView.measuredHeight + binding.ivDrawMode.measuredHeight + padding
 
+        val y = (popupStrokeView.measuredHeight + binding.ivDrawMode.measuredHeight + padding) / 1
+//        val y = 0
+
+//        y /= 2
+//        val y = popContentView.measuredHeight + binding.ivDrawMode.measuredHeight + padding
+//        Toast.makeText(this@MainActivity, "y$y" + "padding$padding", Toast.LENGTH_LONG).show()
+        Log.d(TAG, "showSelectPenStyle: y$y")
         PopupWindowCompat.showAsDropDown(
             popup,
             binding.ivDrawMode,
@@ -205,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                 DrawBoardView.DrawMode.DRAW_OVAL,
                 R.drawable.btn_menu_oval
             )
-            R.id.strokePicture->changeDrawMode(
+            R.id.strokePicture -> changeDrawMode(
                 DrawBoardView.DrawMode.DRAW_BITMAP,
                 R.drawable.btn_menu_bitmap
             )
@@ -217,12 +226,8 @@ class MainActivity : AppCompatActivity() {
             R.id.drag -> changeZoom()
             //=======================
             R.id.test -> {
-//                val str = System.currentTimeMillis()
-//                Log.d(TAG, "saveBitmap: $str")
-//                changeDrawMode(
-//                    DrawBoardView.DrawMode.DRAW_LINE,
-//                    R.drawable.btn_menu_line                )
                 binding.drawBoardView.clear()
+                Log.d(TAG, "onClick:位置 " + v.x + "====" + v.y)
             }
             //=======================
             R.id.ivClear -> {
@@ -231,14 +236,24 @@ class MainActivity : AppCompatActivity() {
                     .setTitle("清空屏幕确认")
                     .setMessage("清空屏幕后无法撤回，请确认是否清空屏幕！")
                     .setPositiveButton("确认", DialogInterface.OnClickListener { _, _ ->
-                        Toast.makeText(this@MainActivity, "屏幕已清空", Toast.LENGTH_SHORT).show()
                         binding.drawBoardView.clear()
+                        var toast = Toast.makeText(this, "屏幕已清空", Toast.LENGTH_LONG)
+                        toast.show()
+                        Log.d(TAG, "onClick:位置测试 "+v.getX())
                     })
-                    .setNegativeButton("取消", DialogInterface.OnClickListener { _, _ ->
-                        Toast.makeText(this@MainActivity, "已取消", Toast.LENGTH_SHORT).show()
-                    })
+                    .create()
+                    .show()
 
-                dialog.create().show()
+
+//                    .setPositiveButton("确认") { _, _ ->
+//                        Toast.makeText(this@MainActivity, "屏幕已清空", Toast.LENGTH_SHORT).show()
+//                        binding.drawBoardView.clear()
+//                    }
+//                    .setNegativeButton("取消") { _, _ ->
+//                        Toast.makeText(this@MainActivity, "已取消", Toast.LENGTH_SHORT).show()
+//                    }
+
+
             }
             R.id.ivUndo -> binding.drawBoardView.undo()
             R.id.ivRedo -> binding.drawBoardView.redo()

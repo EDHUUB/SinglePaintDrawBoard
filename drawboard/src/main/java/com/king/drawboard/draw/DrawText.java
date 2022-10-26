@@ -6,9 +6,7 @@ import android.graphics.PointF;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public class DrawText extends Draw {
 
     Paint textPaint;

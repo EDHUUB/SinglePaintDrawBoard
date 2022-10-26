@@ -5,9 +5,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
+
 public class DrawCircle extends Draw {
 
     private RectF rect;
